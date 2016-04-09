@@ -8,7 +8,7 @@ function UserInput(regIn, nIn) {
 }
 
 function getUserInput() {
-    var n = window.prompt("How big is the image, in pixels? (Make it a power of 2. Fur die Kinder");
+    var n = window.prompt("How big is the image, in pixels? (Make it a power of 2");
     var regInput = window.prompt("What is the regex expression?");
 
     return new UserInput(regInput, n);;
