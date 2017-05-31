@@ -1,4 +1,4 @@
-Regex-Fractals
+Regular Expression Fractals
 ==============
 
 Fractals created using regular expressions (inspired by http://imgur.com/a/QWMGi)
