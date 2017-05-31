@@ -74,9 +74,11 @@ function main() {
   var regex_str = regexes[Math.floor(Math.random()*regexes.length)];
 
   var ctx = getContext();
-  var size = Math.min(window.innerWidth, window.innerHeight);
+  var size = Math.min(window.innerWidth, window.innerHeight) - 50;
   ctx.canvas.width = size;
   ctx.canvas.height = size;
+  ctx.canvas.style.width = size.toString() + "px";
+  ctx.canvas.style.height = size.toString() + "px";
 
   var drawing_canvas = document.createElement('canvas');
   var drawing_ctx = drawing_canvas.getContext("2d");
