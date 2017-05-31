@@ -57,7 +57,7 @@ function draw(regex_str, drawing_ctx, colour, bg_colour) {
   // Draw background
   drawing_ctx.fillStyle = bg_colour;
   drawing_ctx.fillRect(0, 0, pow2size, pow2size);
-  document.getElementsByTagName("BODY")[0].style.backgroundColor = colour;
+  document.body.style.backgroundColor = colour;
 
   var regex = new RegExp(regex_str);
 
@@ -89,10 +89,12 @@ function main() {
 
   draw(regex_str, drawing_ctx, colour, bg_colour);
 
-  var settings = QuickSettings.create(5, 5, "Regex Fractal Settings");
+  QuickSettings.useExtStyleSheet();
+  var settings = QuickSettings.create(5, 5, "Settings ('s' to hide)");
   settings.addText("Regex", regex_str, function(txt) {regex_str = txt; draw(regex_str, drawing_ctx, colour, bg_colour)});
-  settings.addColor("Background Colour", colour, function(c) {colour = c; draw(regex_str, drawing_ctx, colour, bg_colour)});
-  settings.addColor("Colour", colour, function(c) {bg_colour = c; draw(regex_str, drawing_ctx, colour, bg_colour)});
+  settings.addColor("BG Colour", colour, function(c) {colour = c; draw(regex_str, drawing_ctx, colour, bg_colour)});
+  settings.addColor("Colour", bg_colour, function(c) {bg_colour = c; draw(regex_str, drawing_ctx, colour, bg_colour)});
+  settings.setKey("s");
 }
 
 main();
