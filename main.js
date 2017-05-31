@@ -52,13 +52,24 @@ function getContext() {
 function draw(regex_str, ctx) {
   var ctx = getContext();
   var size = ctx.canvas.width;
+  var pow2size = Math.pow(2, Math.ceil(Math.log2(size)));
+
+  var drawing_canvas = document.createElement('canvas');
+  var drawing_ctx = drawing_canvas.getContext("2d");
+  drawing_canvas.width = pow2size;
+  drawing_canvas.height = pow2size;
 
   // Draw background
-  ctx.fillStyle = '#fff';
-  ctx.fillRect(0, 0, size, size);
+  drawing_ctx.fillStyle = '#fff';
+  drawing_ctx.fillRect(0, 0, size, size);
 
   var regex = new RegExp(regex_str);
-  applyRegToCell(regex, 1024, '', ctx);
+
+  // Draw to power of 2 sized canvas
+  applyRegToCell(regex, pow2size, '', drawing_ctx);
+
+  // Draw that canvas to actual screen
+  ctx.drawImage(drawing_canvas, 0, 0, size, size);
 }
 
 var regexes = ["1", "21", "42", "13|31|24|42", "13|31|24|42", "13|31", "4[^4][^4]2", "1[124]|2[14]|4[12]|31", "[13][24]|[24][13]", "12", "12|21", "12|21|34|43", "[34]*2"]
