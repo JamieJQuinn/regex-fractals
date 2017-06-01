@@ -93,9 +93,19 @@ function main() {
 
   QuickSettings.useExtStyleSheet();
   var settings = QuickSettings.create(5, 5, "Settings ('s' to hide)");
-  settings.addText("Regex", regex_str, function(txt) {regex_str = txt; draw(regex_str, drawing_ctx, colour, bg_colour)});
-  settings.addColor("BG Colour", colour, function(c) {colour = c; draw(regex_str, drawing_ctx, colour, bg_colour)});
-  settings.addColor("Colour", bg_colour, function(c) {bg_colour = c; draw(regex_str, drawing_ctx, colour, bg_colour)});
+  settings.addText("Regex", regex_str, function(txt) {
+    regex_str = txt;
+    console.log(txt);
+    draw(regex_str, drawing_ctx, colour, bg_colour)
+  });
+  settings.addColor("BG Colour", colour, function(c) {
+    colour = c;
+    draw(regex_str, drawing_ctx, colour, bg_colour)
+  });
+  settings.addColor("Colour", bg_colour, function(c) {
+    bg_colour = c;
+    draw(regex_str, drawing_ctx, colour, bg_colour)
+  });
   settings.setKey("s");
 }
 
