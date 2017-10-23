@@ -68,23 +68,25 @@ function draw(regex_str, drawing_ctx, colour, bg_colour) {
   ctx.drawImage(drawing_ctx.canvas, 0, 0, size, size);
 }
 
-
-function main() {
-  var regexes = ["1", "21", "42", "[13][24][13]", "^[34]*2", "12|13|14", "[13][24]", "13|31|24|42", "13|31|24|42", "13|31", "4[^4][^4]2", "^1[124]|2[14]|4[12]|31", "[13][24]|[24][13]", "12", "12|21", "12|21|34|43", "[34]+2"]
-  var regex_str = regexes[Math.floor(Math.random()*regexes.length)];
-
-  var ctx = getContext();
-  var size = Math.min(window.innerWidth, window.innerHeight) - 50;
+function setContextSize(ctx, size) {
   ctx.canvas.width = size;
   ctx.canvas.height = size;
   ctx.canvas.style.width = size.toString() + "px";
   ctx.canvas.style.height = size.toString() + "px";
+}
 
-  var drawing_canvas = document.createElement('canvas');
-  var drawing_ctx = drawing_canvas.getContext("2d");
+function main() {
+  var regexes = ["1", "21", "42", "[13][24][13]", "^[34]*2", "12|13|14", "[13][24]", "13|31|24|42", "13|31|24|42", "13|31", "4[^4][^4]2", "^1[124]|2[14]|4[12]|31", "[13][24]|[24][13]", "12", "12|21", "12|21|34|43", "[34]+2"]
+  regex_str = regexes[Math.floor(Math.random()*regexes.length)];
+
+  var ctx = getContext();
+  var size = Math.min(window.innerWidth, window.innerHeight) - 50;
+  setContextSize(ctx, size);
+
+  drawing_canvas = document.createElement('canvas');
+  drawing_ctx = drawing_canvas.getContext("2d");
   var pow2size = Math.pow(2, Math.ceil(Math.log2(size)));
-  drawing_canvas.width = pow2size;
-  drawing_canvas.height = pow2size;
+  setContextSize(drawing_ctx, pow2size);
 
   var colour = "#53828d";
   var bg_colour = "#a19a9a";
@@ -95,16 +97,25 @@ function main() {
   var settings = QuickSettings.create(5, 5, "Settings ('s' to hide)");
   settings.addText("Regex", regex_str, function(txt) {
     regex_str = txt;
-    draw(regex_str, drawing_ctx, colour, bg_colour)
+    draw(regex_str, drawing_ctx, colour, bg_colour);
   });
   settings.addColor("BG Colour", colour, function(c) {
     colour = c;
-    draw(regex_str, drawing_ctx, colour, bg_colour)
+    draw(regex_str, drawing_ctx, colour, bg_colour);
   });
   settings.addColor("Colour", bg_colour, function(c) {
     bg_colour = c;
-    draw(regex_str, drawing_ctx, colour, bg_colour)
+    draw(regex_str, drawing_ctx, colour, bg_colour);
   });
+  resolutions = [256, 512, 1024, 2048, 4096, 8192];
+  settings.addDropDown("Resolution", resolutions, function(size_in) {
+    setContextSize(drawing_ctx, size_in.value);
+    draw(regex_str, drawing_ctx, colour, bg_colour);
+  });
+  settings.addButton("Save", function() {
+    var dataString = drawing_ctx.canvas.toDataURL("image/png");
+    window.open(dataString);
+  })
   settings.setKey("s");
 }
 
